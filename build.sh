@@ -241,7 +241,7 @@ function copy_and_verify() {
 	cp $1 $2
 }
 
-function prepare_image_for_friendlyelec_eflasher() {
+function prepare_image_for_boarddog_eflasher() {
 	local OS_DIR=$1
 	local ROOTFS=$2
 	if [ ! -d ${SDFUSE_DIR}/${OS_DIR} ]; then
@@ -402,7 +402,7 @@ function build_sdimg() {
 	fi
 
 	local ROOTFS=${TOP_DIR}/${BOARDDOGWRT_SRC}/${BOARDDOGWRT_ROOTFS}
-	prepare_image_for_friendlyelec_eflasher ${TARGET_IMAGE_DIRNAME} ${ROOTFS} && (cd ${SDFUSE_DIR} && {
+	prepare_image_for_boarddog_eflasher ${TARGET_IMAGE_DIRNAME} ${ROOTFS} && (cd ${SDFUSE_DIR} && {
 		./mk-sd-image.sh ${TARGET_IMAGE_DIRNAME} ${TARGET_SD_RAW_FILENAME}
 		(cd out && {
 			rm -f ${TARGET_SD_RAW_FILENAME}.gz
@@ -425,7 +425,7 @@ function install_toolchain() {
 
 function build_emmcimg() {
 	local ROOTFS=${TOP_DIR}/${BOARDDOGWRT_SRC}/${BOARDDOGWRT_ROOTFS}
-	prepare_image_for_friendlyelec_eflasher ${TARGET_IMAGE_DIRNAME} ${ROOTFS} && (cd ${SDFUSE_DIR} && {
+	prepare_image_for_boarddog_eflasher ${TARGET_IMAGE_DIRNAME} ${ROOTFS} && (cd ${SDFUSE_DIR} && {
 		# auto download eflasher image
 		if [ ! -f "eflasher/rootfs.img" ]; then
 			./tools/get_rom.sh eflasher
