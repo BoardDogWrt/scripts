@@ -129,6 +129,19 @@ function build_kernel() {
 	fi
 }
 
+function app_process() {
+	[ -d ${TOP_DIR}/app/config/ ] && {
+		mkdir -p ${TOP_DIR}/boarddogwrt/package/app/
+		cp -arf ${TOP_DIR}/app/config/* ${TOP_DIR}/boarddogwrt/package/app/
+		log_info "install app/config/ to boarddogwrt/package/app/"
+	}
+	[ -d ${TOP_DIR}/app/theme/ ] && {
+		mkdir -p ${TOP_DIR}/boarddogwrt/package/theme/
+		cp -arf ${TOP_DIR}/app/theme/* ${TOP_DIR}/boarddogwrt/package/theme/
+		log_info "install app/theme/ to boarddogwrt/package/theme/"
+	}
+}
+
 function build_boarddogwrt() {
 	# build boarddogwrt
 	echo "==========Start build boarddogwrt=========="
@@ -136,6 +149,8 @@ function build_boarddogwrt() {
 	echo "BOARDDOGWRT_SRC				= $BOARDDOGWRT_SRC"
 	echo "TARGET_PLAT					= $TARGET_PLAT"
 	echo "========================================="
+
+	app_process
 
 	(cd ${BOARDDOGWRT_SRC} && {
 		./scripts/feeds update -a && ./scripts/feeds install -a
